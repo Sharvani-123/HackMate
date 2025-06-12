@@ -1,8 +1,10 @@
-
+@import "tailwindcss";
 body {
   margin: 0;
-  display: flex;
   min-width: 320px;
   min-height: 100vh;
 }
 
+@theme {
+  --color-primary: #4D4FF6;
+}
