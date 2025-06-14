@@ -46,13 +46,13 @@ const HeroSection = () => {
       {/* Buttons */}
       <div className="flex justify-center gap-4">
         <Link
-          to="/signup"
+          to="/signin"
           className="px-6 py-3 rounded-xl flex items-center gap-3 text-lg bg-[#6465F4] text-white font-semibold hover:bg-[#7A72F3] transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
         >
         <FaRocket /> Get Started
         </Link>
         <Link
-          to="/login"
+          to="/signin"
           className="px-6 py-3 rounded-xl font-semibold flex items-center border-gray-200 gap-3 border-2 text-lg text-gray-900 hover:border-primary transition-all"
         >
           <FaArrowRightToBracket /> Login

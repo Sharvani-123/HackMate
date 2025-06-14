@@ -1,9 +1,9 @@
 import React from 'react'
 import { FaTwitter, FaGithub, FaLinkedin } from 'react-icons/fa';
 import logo from '../assets/iconLogo.png';
-const Footer = () => {
+const Footer = ({footerRef}) => {
   return (
-    <footer className="bg-[#0E1320] text-gray-400 py-10">
+    <footer ref={footerRef} className="bg-[#0E1320] text-gray-400 py-10">
   <div className="max-w-7xl mx-auto px-6 flex flex-col items-center text-center space-y-4">
     {/* Logo + tagline */}
     <div className="flex items-center gap-1">
@@ -20,7 +20,7 @@ const Footer = () => {
     </div>
 
     {/* Copyright */}
-    <p className="text-sm text-gray-500 pt-4">© 2024 HackMate. All rights reserved.</p>
+    <p className="text-sm text-gray-500 pt-4">© 2025 HackMate. All rights reserved.</p>
   </div>
 </footer>
   )

@@ -5,6 +5,7 @@ import Teams from './pages/Teams';
 import Hackathons from './pages/Hackathons';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import SignIn from './pages/SignIn';
 import './App.css'
 
 import React from 'react'
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/hackathons" element={<Hackathons/>}/>
         <Route path="/about" element={<About/>}/>
         <Route path="/contact" element={<Contact/>}/>
+        <Route path= "/signin" element= {<SignIn/>}/>
       </Routes>
     </Router>
   )
