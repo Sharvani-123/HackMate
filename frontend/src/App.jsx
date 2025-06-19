@@ -6,6 +6,7 @@ import Hackathons from './pages/Hackathons';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import SignIn from './pages/SignIn';
+import CreateProfile from './pages/CreateProfile';
 import './App.css'
 
 import React from 'react'
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/about" element={<About/>}/>
         <Route path="/contact" element={<Contact/>}/>
         <Route path= "/signin" element= {<SignIn/>}/>
+        <Route path="/createprofile" element={<CreateProfile />} />
       </Routes>
     </Router>
   )
