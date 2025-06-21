@@ -95,7 +95,7 @@ const CreateProfile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Submit logic here (API call, etc.)
-    alert("Profile created!\n" + JSON.stringify(form, null, 2));
+    alert("Profile created!\n" );
   };
 
   return (
@@ -206,7 +206,7 @@ const CreateProfile = () => {
             <button
               type="button"
               onClick={addSkill}
-              className="bg-[#6c6ce3] hover:bg-[#6869f5] text-white rounded-lg p-2 transition"
+              className="bg-[#6c6ce3] cursor-pointer hover:bg-[#6869f5] text-white rounded-lg p-2 transition"
               aria-label="Add skill"
             >
               <FiPlus size={20} />
