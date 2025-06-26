@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiPlus, FiUserPlus } from "react-icons/fi";
 import Header from "../components/Header";
+import Select from "react-select";
 import Footer from "../components/Footer";
+import colleges from "../data/colleges.json";
 
 const BRANCHES = [
   "Computer Science",
@@ -34,10 +36,81 @@ const INTERESTS = [
   "UI/UX Design",
 ];
 
+const universityOptions = Array.from(
+  new Set(
+    colleges
+      .filter((item) => item.university) // filter out entries without university
+      .map((item) => item.university)
+  )
+)
+  .sort()
+  .map((uni) => ({ label: uni, value: uni }))
+  .concat([{ label: "Other", value: "Other" }]);
+
+const customSelectStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    backgroundColor: "#fff",
+    borderColor: state.isFocused ? "#6e36ff" : "#d1d5db", // Tailwind gray-300
+    boxShadow: state.isFocused ? "0 0 0 1.5px #6e36ff" : "none",
+    "&:hover": {
+      borderColor: "#6e36ff",
+    },
+    minHeight: "44px",
+    borderRadius: "0.5rem", // Tailwind rounded-lg
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected
+      ? "#6465F4"
+      : state.isFocused
+      ? "#f3f4f6"
+      : "#fff",
+    color: state.isSelected ? "#fff" : "#333",
+    fontWeight: state.isSelected ? 600 : 400,
+    fontSize: "1rem",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "0.5rem",
+    zIndex: 20,
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: "#333",
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    color: "#9ca3af", // Tailwind gray-400
+    fontSize: "1rem",
+  }),
+  input: (provided) => ({
+    ...provided,
+    fontSize: "1rem",
+    color: "#333",
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    color: state.isFocused ? "#6e36ff" : "#a1a1aa", // Tailwind gray-400
+    "&:hover": {
+      color: "#6e36ff",
+    },
+  }),
+  clearIndicator: (provided) => ({
+    ...provided,
+    color: "#a1a1aa",
+    "&:hover": {
+      color: "#6e36ff",
+    },
+  }),
+};
+
 const CreateProfile = () => {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    university: "",
+    customuniversity: "",
     branch: "",
     year: "",
     skillInput: "",
@@ -61,6 +134,14 @@ const CreateProfile = () => {
     } else {
       setForm((prev) => ({ ...prev, [name]: value }));
     }
+  };
+  //Handle University
+   const handleUniversityChange = (selected) => {
+    setForm((prev) => ({
+      ...prev,
+      university: selected ? selected.value : "",
+      customuniversity: "",
+    }));
   };
 
   // Add skill
@@ -138,6 +219,36 @@ const CreateProfile = () => {
             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-[#6e36ff]"
             required
           />
+        </div>
+        {/*University*/}
+        <div>
+          <label className="block font-medium mb-1">University</label>
+           <Select
+                options={universityOptions}
+                value={
+                  form.university
+                    ? universityOptions.find(
+                        (opt) => opt.value === form.university
+                      )
+                    : null
+                }
+                onChange={handleUniversityChange}
+                placeholder="Select or search your university"
+                isClearable
+                styles={customSelectStyles}
+                classNamePrefix="react-select"
+              />
+                {form.university === "Other" && (
+                <input
+                  type="text"
+                  name="customuniversity"
+                  value={form.customuniversity}
+                  onChange={handleChange}
+                  placeholder="Enter your university name"
+                  className="mt-2 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-[#6e36ff]"
+                  required
+                />
+              )}
         </div>
         {/* Branch & Year */}
         <div className="flex flex-col md:flex-row gap-4">
