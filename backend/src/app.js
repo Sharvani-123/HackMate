@@ -12,7 +12,7 @@ app.use(helmet());
 // Logging middleware
 app.use(morgan('combined'));
 
-// CORS middleware
+// CORS middleware - Allow frontend to connect
 app.use(cors({
     origin: 'http://localhost:5173', // Vite dev server
     credentials: true
