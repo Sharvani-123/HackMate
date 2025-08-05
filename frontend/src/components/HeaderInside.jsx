@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Link,useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 import logo from '../assets/iconLogo.png';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { FiBell, FiUser, FiLogOut } from 'react-icons/fi';
 
 const HeaderInside = () => {
-    const location = useLocation(); // 👈 Get current route
+  const location = useLocation(); // 👈 Get current route
+  const navigate = useNavigate();
   const currentPath = location.pathname;
 
   const linkClass = (path) =>
@@ -14,9 +17,15 @@ const HeaderInside = () => {
     }`;
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleLogout = () => {
-    // Add your logout logic here
-    alert("Logged out");
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setIsOpen(false); // close mobile nav if open
+      navigate('/'); // redirect to home page
+    } catch (error) {
+      console.error('Logout error:', error);
+      alert("Logout failed. Please try again.");
+    }
   };
 
   return (

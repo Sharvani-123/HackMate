@@ -1,14 +1,38 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 import logo from '../assets/iconLogo.png';
 import { HiMenu, HiX } from 'react-icons/hi';
 
 const Header = ({ footerRef }) => {
   const [isOpen, setIsOpen] = useState(false);
-   const scrollToFooter = () => {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  // Listen for authentication state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe(); // Cleanup subscription
+  }, []);
+
+  const scrollToFooter = () => {
     if (footerRef && footerRef.current) {
       footerRef.current.scrollIntoView({ behavior: 'smooth' });
       setIsOpen(false); // close mobile nav if open
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setIsOpen(false); // close mobile nav if open
+      navigate('/'); // redirect to home page
+    } catch (error) {
+      console.error('Logout error:', error);
     }
   };
   return (
@@ -25,10 +49,20 @@ const Header = ({ footerRef }) => {
           <Link to="/" className="text-gray-600 px-3 py-2 text-md font-medium hover:text-primary transition-colors">
             Home
           </Link>
-          <Link to="/" className="text-gray-600 px-3 py-2 text-md font-medium hover:text-primary transition-colors">
+          {user && (
+            <>
+              <Link to="/teams" className="text-gray-600 px-3 py-2 text-md font-medium hover:text-primary transition-colors">
+                Teams
+              </Link>
+              <Link to="/hackathons" className="text-gray-600 px-3 py-2 text-md font-medium hover:text-primary transition-colors">
+                Hackathons
+              </Link>
+            </>
+          )}
+          <Link to="/about" className="text-gray-600 px-3 py-2 text-md font-medium hover:text-primary transition-colors">
             About
           </Link>
-            <button
+          <button
             onClick={scrollToFooter}
             className="text-gray-600 px-3 py-2 text-md font-medium hover:text-primary cursor-pointer transition-colors"
           >
@@ -38,12 +72,30 @@ const Header = ({ footerRef }) => {
 
         {/* Auth Buttons (Desktop) */}
         <div className="hidden md:flex items-center space-x-4">
-          <Link to="/signin" className="px-4 py-2 text-md font-medium text-gray-600 hover:text-primary transition-colors">
-            Log in
-          </Link>
-          <Link to="/signin" className="px-4 py-2 rounded bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors">
-            Sign Up
-          </Link>
+          {user ? (
+            // Show logout button when user is signed in
+            <>
+              <span className="text-gray-600 text-sm">
+                Welcome, {user.displayName || user.email}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 rounded bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition-colors"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            // Show login/signup buttons when user is not signed in
+            <>
+              <Link to="/signin" className="px-4 py-2 text-md font-medium text-gray-600 hover:text-primary transition-colors">
+                Log in
+              </Link>
+              <Link to="/signin" className="px-4 py-2 rounded bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors">
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Icon */}
@@ -59,18 +111,47 @@ const Header = ({ footerRef }) => {
             <Link to="/" onClick={() => setIsOpen(false)} className="text-gray-600 hover:text-primary transition-colors">
               Home
             </Link>
+            {user && (
+              <>
+                <Link to="/teams" onClick={() => setIsOpen(false)} className="text-gray-600 hover:text-primary transition-colors">
+                  Teams
+                </Link>
+                <Link to="/hackathons" onClick={() => setIsOpen(false)} className="text-gray-600 hover:text-primary transition-colors">
+                  Hackathons
+                </Link>
+              </>
+            )}
             <Link to="/about" onClick={() => setIsOpen(false)} className="text-gray-600 hover:text-primary transition-colors">
               About
             </Link>
             <button onClick={scrollToFooter} className="text-gray-600 hover:text-primary transition-colors text-left">
               Contact
             </button>
-            <Link to="/login" onClick={() => setIsOpen(false)} className="text-gray-600 hover:text-primary transition-colors pt-2 border-t mt-2">
-              Log in
-            </Link>
-            <Link to="/signup" onClick={() => setIsOpen(false)} className="text-white bg-primary py-2 rounded text-center hover:bg-primary/90 transition">
-              Sign Up
-            </Link>
+            
+            {user ? (
+              // Show logout for authenticated users
+              <>
+                <div className="text-gray-600 text-sm pt-2 border-t mt-2">
+                  Welcome, {user.displayName || user.email}
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="text-white bg-red-500 py-2 rounded text-center hover:bg-red-600 transition"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              // Show login/signup for non-authenticated users
+              <>
+                <Link to="/signin" onClick={() => setIsOpen(false)} className="text-gray-600 hover:text-primary transition-colors pt-2 border-t mt-2">
+                  Log in
+                </Link>
+                <Link to="/signin" onClick={() => setIsOpen(false)} className="text-white bg-primary py-2 rounded text-center hover:bg-primary/90 transition">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       )}

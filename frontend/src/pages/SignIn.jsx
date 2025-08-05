@@ -18,15 +18,19 @@ const SignIn = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      // Check Firestore if user exists already (pseudo, implement this)
+      // Small delay to ensure token is ready
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Check backend if user profile exists
       const userExists = await checkIfUserProfileExists(user.uid); 
       if (userExists) {
-        navigate('/dashboard');
+        navigate('/hackathons'); // or wherever authenticated users go
       } else {
-        navigate('/create-profile');
+        navigate('/createprofile');
       }
     } catch (error) {
       console.error("Login error:", error);
+      alert("Login failed. Please try again.");
     }
   };
 

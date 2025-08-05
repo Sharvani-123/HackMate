@@ -21,6 +21,10 @@ app.use(cors({
 // Basic middleware
 app.use(express.json());
 
+const userRoutes= require('./routes/users.route');
+
+app.use('/api/users',userRoutes);
+
 // Basic test route
 app.get('/', (req, res) => {
     res.json({ message: 'Server is working!' });

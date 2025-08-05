@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiPlus, FiUserPlus } from "react-icons/fi";
 import Header from "../components/Header";
 import Select from "react-select";
 import Footer from "../components/Footer";
 import colleges from "../data/colleges.json";
+import { createUserProfile } from "../utils/firebaseHelpers";
 
 const BRANCHES = [
   "Computer Science",
@@ -106,6 +107,7 @@ const customSelectStyles = {
 };
 
 const CreateProfile = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -173,10 +175,36 @@ const CreateProfile = () => {
   };
 
   // Handle form submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Submit logic here (API call, etc.)
-    alert("Profile created!\n" );
+    
+    try {
+      // Prepare profile data for backend (nested under 'profile' key)
+      const profileData = {
+        profile: {
+          name: form.name,
+          university: form.university === "Other" ? form.customuniversity : form.university,
+          customUniversity: form.university === "Other" ? form.customuniversity : null,
+          branch: form.branch,
+          year: form.year,
+          skills: form.skills,
+          interests: form.interests,
+          teamingUp: form.teamingUp
+        }
+      };
+
+      console.log('Sending profile data:', profileData); // Debug log
+
+      // Create profile via backend API
+      await createUserProfile(profileData);
+      
+      alert("Profile created successfully!");
+      navigate('/hackathons');
+      
+    } catch (error) {
+      console.error('Error creating profile:', error);
+      alert("Failed to create profile. Please try again.");
+    }
   };
 
   return (
