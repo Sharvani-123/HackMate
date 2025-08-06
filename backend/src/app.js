@@ -21,9 +21,15 @@ app.use(cors({
 // Basic middleware
 app.use(express.json());
 
-const userRoutes= require('./routes/users.route');
+// Import routes
+const userRoutes = require('./routes/users.route');
+const hackathonRoutes = require('./routes/hackathons.route');
+const adminRoutes = require('./routes/admin.route');
 
-app.use('/api/users',userRoutes);
+// Register routes
+app.use('/api/users', userRoutes);
+app.use('/api/hackathons', hackathonRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Basic test route
 app.get('/', (req, res) => {

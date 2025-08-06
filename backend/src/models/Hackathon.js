@@ -7,6 +7,7 @@ const hackathonSchema = new mongoose.Schema({
     },
     link:{
         type:String,
+        required: true
     }, //URL to hackathon registration page
     college:{
         type: String,
