@@ -10,6 +10,26 @@ const getAuthToken = async () => {
   return await user.getIdToken();
 };
 
+// Admin helper - get token for testing (development only)
+export const getTokenForTesting = async () => {
+  if (process.env.NODE_ENV !== 'development') {
+    console.warn('Token helper only available in development');
+    return null;
+  }
+  
+  try {
+    const token = await getAuthToken();
+    console.log('🔑 Firebase Token for API testing:');
+    console.log(token);
+    navigator.clipboard.writeText(token);
+    console.log('✅ Token copied to clipboard');
+    return token;
+  } catch (error) {
+    console.error('Error getting token:', error);
+    return null;
+  }
+};
+
 // Check if user profile exists in backend
 export const checkIfUserProfileExists = async (uid) => {
   try {
@@ -41,8 +61,6 @@ export const checkIfUserProfileExists = async (uid) => {
 export const createUserProfile = async (profileData) => {
   try {
     const token = await getAuthToken();
-    console.log('Creating profile with data:', profileData); // Debug log
-    
     const response = await fetch(`${API_BASE_URL}/users/profile`, {
       method: 'POST',
       headers: {
@@ -54,7 +72,6 @@ export const createUserProfile = async (profileData) => {
     
     if (!response.ok) {
       const errorData = await response.json();
-      console.error('Backend error response:', errorData); // Debug log
       throw new Error(`Failed to create user profile: ${errorData.message || response.statusText}`);
     }
     

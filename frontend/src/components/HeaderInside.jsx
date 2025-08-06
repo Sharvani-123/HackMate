@@ -7,7 +7,7 @@ import { HiMenu, HiX } from 'react-icons/hi';
 import { FiBell, FiUser, FiLogOut } from 'react-icons/fi';
 
 const HeaderInside = () => {
-  const location = useLocation(); // 👈 Get current route
+  const location = useLocation(); //  Get current route
   const navigate = useNavigate();
   const currentPath = location.pathname;
 

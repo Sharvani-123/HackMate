@@ -7,6 +7,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import SignIn from './pages/SignIn';
 import CreateProfile from './pages/CreateProfile';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css'
 
 import React from 'react'
@@ -16,8 +17,8 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" exact element={<Home/>} />
-        <Route path="/teams" element={<Teams/>}/>
-        <Route path="/hackathons" element={<Hackathons/>}/>
+        <Route path="/teams" element={<ProtectedRoute><Teams/></ProtectedRoute>}/>
+        <Route path="/hackathons" element={<ProtectedRoute><Hackathons/></ProtectedRoute>}/>
         <Route path="/about" element={<About/>}/>
         <Route path="/contact" element={<Contact/>}/>
         <Route path= "/signin" element= {<SignIn/>}/>

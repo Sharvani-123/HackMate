@@ -23,7 +23,7 @@ const domains = [
 const colleges = [
   "All Colleges",
   "Same College",
-  "Cross-College",
+  "Cross College",
 ];
 
 const teamSizes = [
