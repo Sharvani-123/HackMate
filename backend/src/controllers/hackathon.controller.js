@@ -73,13 +73,13 @@ const getHackathons = async (req,res) => {
     }
 };
 
-//get single hackahton details
+//get single hackathon details
 
 const getHackathonDetails = async(req,res) =>{
     try {
         const {id} = req.params;
 
-        const hackahton = await Hackathon.findById(id);
+        const hackathon = await Hackathon.findById(id);
 
         if(!hackahton){
             return res.status(400).json({
@@ -90,7 +90,7 @@ const getHackathonDetails = async(req,res) =>{
 
         res.status(200).json({
             success: true,
-            data: hackahton
+            data: hackathon
         });
 
     } catch (error) {

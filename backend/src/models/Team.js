@@ -28,10 +28,32 @@ const teamSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
     }], //pending join requests
+
+    isTeamFull: {
+        type: Boolean,
+        default: false
+    },
+    maxMembers: {
+        type: Number,
+        default: 5, // Optional: set a default team size limit
+        min: 2,
+        max: 10
+    },
+
     createdAt:{
         type:Date,
         default:Date.now
+    },
+
+    updatedAt: {
+        type: Date,
+        default: Date.now
     }
+});
+
+teamSchema.pre('save', function(next) {
+    this.updatedAt = Date.now();
+    next();
 });
 
 const Team= mongoose.model('Team', teamSchema);

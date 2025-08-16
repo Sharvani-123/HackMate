@@ -25,12 +25,12 @@ app.use(express.json());
 const userRoutes = require('./routes/users.route');
 const hackathonRoutes = require('./routes/hackathons.route');
 const adminRoutes = require('./routes/admin.route');
-
+const teamRoutes = require('./routes/teams.route');
 // Register routes
 app.use('/api/users', userRoutes);
 app.use('/api/hackathons', hackathonRoutes);
 app.use('/api/admin', adminRoutes);
-
+app.use('/api/teams', teamRoutes);
 // Basic test route
 app.get('/', (req, res) => {
     res.json({ message: 'Server is working!' });

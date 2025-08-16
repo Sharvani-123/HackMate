@@ -192,7 +192,7 @@ const getAllHackathons = async (req, res) => {
         // Build query object for filtering
         const query = {};
         
-        // Add search functionality if provided
+        // Add search functionality
         if (search) {
             query.$or = [
                 { name: { $regex: search, $options: 'i' } },
