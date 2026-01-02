@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
+import { auth } from './firebase'
 import Home from './pages/Home';
 import Teams from './pages/Teams';
 import Hackathons from './pages/Hackathons';
@@ -13,6 +14,10 @@ import './App.css'
 import React from 'react'
 
 const App = () => {
+  useEffect(() => {
+    // Expose auth for development/testing
+    window.auth = auth;
+  }, []);
   return (
     <Router>
       <Routes>
