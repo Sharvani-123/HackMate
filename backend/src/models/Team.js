@@ -55,6 +55,12 @@ teamSchema.pre('save', function(next) {
     this.updatedAt = Date.now();
     next();
 });
-
+// Create indexes for frequently queried fields
+teamSchema.index({ creatorEmail: 1 }); // For team filtering by creator
+teamSchema.index({ members: 1 }); // For finding user's teams
+teamSchema.index({ hackathonName: 1 }); // For hackathon-based filtering
+teamSchema.index({ hackathonType: 1 });
+teamSchema.index({ isTeamFull: 1 }); // For finding available teams
+teamSchema.index({ createdAt: -1 }); // For sorting by creation date
 const Team= mongoose.model('Team', teamSchema);
 module.exports= Team;

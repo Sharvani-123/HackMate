@@ -30,6 +30,11 @@ const hackathonSchema = new mongoose.Schema({
         default:Date.now,
     }
 });
-
+// Create indexes for frequently queried fields
+hackathonSchema.index({ tags: 1 }); // For tag-based filtering
+hackathonSchema.index({ college: 1 }); // For college filtering
+hackathonSchema.index({ deadline: 1 }); // For date-based filtering and expiry
+hackathonSchema.index({ name: 'text' }); // Text index for search functionality
+hackathonSchema.index({ createdAt: -1 }); // For sorting by creation date
 const Hackathon= mongoose.model('Hackathon', hackathonSchema);
 module.exports= Hackathon;

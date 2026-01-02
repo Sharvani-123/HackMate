@@ -38,10 +38,10 @@ const createProfile= async (req,res) => {
             skills: profile.skills || [],
             interests: profile.interests || [],
             teamingUp: profile.teamingUp!==undefined ? profile.teamingUp :true,
-            linkedinUrl: profile.linkedinUrl || null,
-            githubUrl: profile.githubUrl || null,
-            discordUrl: profile.discordUrl || null,
-            photoUrl: profile.photoUrl || null
+            linkedinURL: profile.linkedinURL || profile.linkedinUrl || null,
+            githubURL: profile.githubURL || profile.githubUrl || null,
+            discordURL: profile.discordURL || profile.discordUrl || null,
+            photoURL: profile.photoURL || profile.photoUrl || null
         }
     });
 
@@ -117,10 +117,18 @@ const updateProfile=async (req,res) => {
         if (profile.skills) user.profile.skills = profile.skills;
         if (profile.interests) user.profile.interests = profile.interests;
         if (profile.teamingUp !== undefined) user.profile.teamingUp = profile.teamingUp;
-        if (profile.linkedinUrl !== undefined) user.profile.linkedinUrl = profile.linkedinUrl;
-        if (profile.githubUrl !== undefined) user.profile.githubUrl = profile.githubUrl;
-        if (profile.discordUrl !== undefined) user.profile.discordUrl = profile.discordUrl;
-        if (profile.photoUrl !== undefined) user.profile.photoUrl = profile.photoUrl;
+        if (profile.linkedinURL !== undefined || profile.linkedinUrl !== undefined) {
+            user.profile.linkedinURL = profile.linkedinURL ?? profile.linkedinUrl;
+        }
+        if (profile.githubURL !== undefined || profile.githubUrl !== undefined) {
+            user.profile.githubURL = profile.githubURL ?? profile.githubUrl;
+        }
+        if (profile.discordURL !== undefined || profile.discordUrl !== undefined) {
+            user.profile.discordURL = profile.discordURL ?? profile.discordUrl;
+        }
+        if (profile.photoURL !== undefined || profile.photoUrl !== undefined) {
+            user.profile.photoURL = profile.photoURL ?? profile.photoUrl;
+        }
 
         await user.save();
 
@@ -144,17 +152,36 @@ const updateProfile=async (req,res) => {
 const getUsersByCollege = async (req,res) => {
     try {
         const{ university}= req.params;
+        const { page = 1, limit = 10 } = req.query;
+        
+        const skip = (page - 1) * limit;
         
         const users= await User.find({
             'profile.university': university,
             isProfileComplete: true,
             'profile.teamingUp':true
-        }).select('profile.name profile.university profile.branch profile.year profile.skills profile.interests profile.photoUrl');
+        })
+        .select('profile.name profile.university profile.branch profile.year profile.skills profile.interests profile.photoURL')
+        .skip(skip)
+        .limit(parseInt(limit))
+        .sort({ createdAt: -1 });
+
+        const total = await User.countDocuments({
+            'profile.university': university,
+            isProfileComplete: true,
+            'profile.teamingUp':true
+        });
 
         res.status(200).json({
             success: true,
             count: users.length,
-            data:users
+            data:users,
+            pagination: {
+                currentPage: parseInt(page),
+                totalPages: Math.ceil(total / limit),
+                totalItems: total,
+                itemsPerPage: parseInt(limit)
+            }
         });
 
     } catch (error) {

@@ -68,5 +68,11 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+// Create indexes for frequently queried fields
+userSchema.index({ firebaseUid: 1 });
+userSchema.index({ email: 1 });
+userSchema.index({ 'profile.university': 1 }); // For getUsersByCollege
+userSchema.index({ 'profile.teamingUp': 1 });
+
 const User= mongoose.model('User',userSchema);
 module.exports= User;

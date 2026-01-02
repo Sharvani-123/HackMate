@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const teamController = require('../controllers/team.controller');
-const { authenticateToken } = require('../middleware/auth.middleware');
+const { verifyFirebaseToken } = require('../middleware/auth.middleware');
 const { validateTeamCreation,validateTeamUpdate } = require('../middleware/validation.middleware');
 
 // Protected routes
-router.use(authenticateToken);
+router.use(verifyFirebaseToken);
 
 // GET /api/teams - Get all teams with filtering
 router.get('/', teamController.getAllTeams);

@@ -81,7 +81,7 @@ const getHackathonDetails = async(req,res) =>{
 
         const hackathon = await Hackathon.findById(id);
 
-        if(!hackahton){
+        if(!hackathon){
             return res.status(400).json({
                 success: false,
                 message: 'Hackathon not found'
