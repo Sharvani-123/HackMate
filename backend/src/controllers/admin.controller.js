@@ -1,4 +1,5 @@
 const Hackathon = require('../models/Hackathon');
+const redis = require('../config/redis');
 
 /* /admin/hackathons */
 
@@ -45,6 +46,9 @@ const createHackathon = async (req,res) => {
             teamSize : teamSize|| null
         });
         await newHackathon.save();
+
+        // Invalidate cache for hackathons
+        await redis.del('/api/hackathons');
 
         res.status(201).json({
             success: true,
@@ -106,6 +110,10 @@ const updateHackathon = async (req, res) => {
             { new: true, runValidators: true }
         );
 
+        // Invalidate cache for the updated hackathon and the list
+        await redis.del(`/api/hackathons/${id}`);
+        await redis.del('/api/hackathons');
+
         res.status(200).json({
             success: true,
             message: 'Hackathon updated successfully',
@@ -135,6 +143,10 @@ const deleteHackathon = async (req, res) => {
         }
 
         await Hackathon.findByIdAndDelete(id);
+
+        // Invalidate cache for the deleted hackathon and the list
+        await redis.del(`/api/hackathons/${id}`);
+        await redis.del('/api/hackathons');
 
         res.status(200).json({
             success: true,

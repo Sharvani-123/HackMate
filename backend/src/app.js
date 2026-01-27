@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const { verifyFirebaseToken } = require('./middleware/auth.middleware');
 
 // Create Express app
 const app = express();
@@ -18,14 +19,20 @@ app.use(cors({
     credentials: true
 }));
 
-// Basic middleware
 app.use(express.json());
+
+// Apply authentication globally to all routes
+app.use(verifyFirebaseToken);
 
 // Import routes
 const userRoutes = require('./routes/users.route');
 const hackathonRoutes = require('./routes/hackathons.route');
 const adminRoutes = require('./routes/admin.route');
 const teamRoutes = require('./routes/teams.route');
+const globalLimiter = require('./middleware/rateLimiter.middleware');
+
+//Rate Limiter
+app.use('/api', globalLimiter);
 // Register routes
 app.use('/api/users', userRoutes);
 app.use('/api/hackathons', hackathonRoutes);

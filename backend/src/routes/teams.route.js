@@ -1,21 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const teamController = require('../controllers/team.controller');
-const { verifyFirebaseToken } = require('../middleware/auth.middleware');
 const { validateTeamCreation,validateTeamUpdate } = require('../middleware/validation.middleware');
-
-// Protected routes
-router.use(verifyFirebaseToken);
+const { teamCreationLimiter } = require('../middleware/rateLimiter.middleware');
+const cache = require('../middleware/cache.middleware');
 
 // GET /api/teams - Get all teams with filtering
 router.get('/', teamController.getAllTeams);
 
 // POST /api/teams - Create new team
-router.post('/', validateTeamCreation, teamController.createTeam);
+router.post('/', teamCreationLimiter, validateTeamCreation, teamController.createTeam);
 
 // GET /api/teams/my-teams - Get user's teams
 router.get('/my-teams', teamController.getMyTeams);
-
 
 // GET /api/teams/:teamId - Get team by ID
 router.get('/:teamId', teamController.getTeamById);

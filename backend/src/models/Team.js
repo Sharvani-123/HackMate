@@ -55,6 +55,7 @@ teamSchema.pre('save', function(next) {
     this.updatedAt = Date.now();
     next();
 });
+
 // Create indexes for frequently queried fields
 teamSchema.index({ creatorEmail: 1 }); // For team filtering by creator
 teamSchema.index({ members: 1 }); // For finding user's teams
