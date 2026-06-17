@@ -9,7 +9,10 @@ const {
 
 const cache = require('../middleware/cache.middleware');
 
-// Protected hackathon routes (authentication required for all)
+const { verifyFirebaseToken } = require('../middleware/auth.middleware');
+
+router.use(verifyFirebaseToken);
+
 router.get('/', cache, getHackathons);                    // GET /api/hackathons - Get all hackathons with filters
 router.get('/tags', cache, getTags);                      // GET /api/hackathons/tags - Get available tags
 router.get('/:id', cache, getHackathonDetails);           // GET /api/hackathons/:id - Get single hackathon details

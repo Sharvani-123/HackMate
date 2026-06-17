@@ -1,5 +1,6 @@
 const User = require('../models/User');
 
+
 //Create user profile
 const createProfile= async (req,res) => {
     try{const firebaseUid=req.user.uid;

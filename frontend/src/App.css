@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
-/* Floating animation for illustrations */
+/* Dark background color */
+/* body {
+  background-color: #242424;
+  color: #E0E0E0; /* Light text for contrast */
+/* } */ 
+
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);

@@ -1,6 +1,7 @@
-const rateLimit= require('express-rate-limit')
+const { rateLimit, ipKeyGenerator } = require('express-rate-limit');
 
-const keyGenerator= (req) =>req.user?.uid ||req.ip;
+
+const keyGenerator= (req) =>req.user?.uid || ipKeyGenerator(req);
 
 const globalLimiter= rateLimit({
     windowMs:15*60*1000,

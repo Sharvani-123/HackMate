@@ -21,15 +21,13 @@ app.use(cors({
 
 app.use(express.json());
 
-// Apply authentication globally to all routes
-app.use(verifyFirebaseToken);
 
 // Import routes
 const userRoutes = require('./routes/users.route');
 const hackathonRoutes = require('./routes/hackathons.route');
 const adminRoutes = require('./routes/admin.route');
 const teamRoutes = require('./routes/teams.route');
-const globalLimiter = require('./middleware/rateLimiter.middleware');
+const {globalLimiter} = require('./middleware/rateLimiter.middleware');
 
 //Rate Limiter
 app.use('/api', globalLimiter);

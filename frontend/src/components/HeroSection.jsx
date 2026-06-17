@@ -12,9 +12,9 @@ const HeroSection = () => {
       {/* Left side - Text Content */}
       <div className="text-center lg:text-left">
         <h1 className='text-4xl sm:text-6xl font-bold mb-4'>
-          Find your perfect <span className='text-[#4D4FF6]'>hackathon </span>
+          Find your perfect <span className='text-primary'>hackathon </span>
           <br />
-          <span className='text-[#7A72F3]'> teammates</span>
+          <span className='text-primary/90'> teammates</span>
         </h1>
         <p className='text-2xl font-semibold text-gray-600 mb-10'>
           Join Hands with passionate coders in your college.
@@ -23,7 +23,7 @@ const HeroSection = () => {
         <div className="flex justify-center lg:justify-start gap-4">
           <Link
             to="/signin"
-            className="px-6 py-3 rounded-xl flex items-center gap-3 text-lg bg-[#6465F4] text-white font-semibold hover:bg-[#7A72F3] transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+            className="px-6 py-3 rounded-xl flex items-center gap-3 text-lg bg-primary text-white font-semibold hover:bg-primary/90 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
           >
             <FaRocket /> Get Started
           </Link>

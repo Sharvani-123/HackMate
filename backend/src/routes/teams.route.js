@@ -4,7 +4,10 @@ const teamController = require('../controllers/team.controller');
 const { validateTeamCreation,validateTeamUpdate } = require('../middleware/validation.middleware');
 const { teamCreationLimiter } = require('../middleware/rateLimiter.middleware');
 const cache = require('../middleware/cache.middleware');
+const { verifyFirebaseToken } = require('../middleware/auth.middleware');
 
+
+router.use(verifyFirebaseToken);
 // GET /api/teams - Get all teams with filtering
 router.get('/', teamController.getAllTeams);
 

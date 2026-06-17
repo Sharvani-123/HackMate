@@ -213,7 +213,7 @@ const CreateProfile = () => {
        <main className="flex-grow bg-white px-4 py-7 flex justify-center items-center">
     <div className="bg-white w-full max-w-xl">
       <h1 className="text-4xl md:text-5xl font-bold text-center mb-1.5">
-        Join <span className="text-[#6465F4]">Hack</span><span className="text-[#7A72F3]">Mate</span>
+        Join <span className="text-primary">Hack</span><span className="text-primary">Mate</span>
       </h1>
       <p className="text-gray-600 text-center mb-2">
         Create your profile and start connecting with amazing developers
@@ -231,7 +231,7 @@ const CreateProfile = () => {
             value={form.name}
             onChange={handleChange}
             placeholder="Enter your full name"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-[#6e36ff]"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-primary/90"
             required
           />
         </div>
@@ -244,7 +244,7 @@ const CreateProfile = () => {
             value={form.email}
             onChange={handleChange}
             placeholder="your.email@college.edu"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-[#6e36ff]"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-primary/90"
             required
           />
         </div>
@@ -273,7 +273,7 @@ const CreateProfile = () => {
                   value={form.customuniversity}
                   onChange={handleChange}
                   placeholder="Enter your university name"
-                  className="mt-2 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-[#6e36ff]"
+                  className="mt-2 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-primary/90"
                   required
                 />
               )}
@@ -286,7 +286,7 @@ const CreateProfile = () => {
               name="branch"
               value={form.branch}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#6e36ff]"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-primary/90"
               required
             >
               <option value="">Select your branch</option>
@@ -301,7 +301,7 @@ const CreateProfile = () => {
               name="year"
               value={form.year}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-[#6e36ff]"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-primary"
               required
             >
               <option value="">Select your year</option>
@@ -318,13 +318,13 @@ const CreateProfile = () => {
             {form.skills.map((skill) => (
               <span
                 key={skill}
-                className="flex items-center bg-[#e0e0f9] text-[#755fe1] px-3 py-1 rounded-full text-sm font-medium"
+                className="flex items-center bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium"
               >
                 {skill}
                 <button
                   type="button"
                   onClick={() => removeSkill(skill)}
-                  className="ml-1 text-[#8e8ed9] hover:text-[#755fe1]"
+                  className="ml-1 text-primary hover:text-primary/50"
                   aria-label={`Remove ${skill}`}
                 >
                   &times;
@@ -340,12 +340,12 @@ const CreateProfile = () => {
               onChange={handleChange}
               onKeyDown={handleSkillKeyDown}
               placeholder="Add your skills (press Enter to add)"
-              className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-[#6e36ff]"
+              className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-primary/90"
             />
             <button
               type="button"
               onClick={addSkill}
-              className="bg-[#6c6ce3] cursor-pointer hover:bg-[#6869f5] text-white rounded-lg p-2 transition"
+              className="bg-primary cursor-pointer hover:bg-primary/90 text-white rounded-lg p-2 transition"
               aria-label="Add skill"
             >
               <FiPlus size={20} />
@@ -364,7 +364,7 @@ const CreateProfile = () => {
                   value={interest}
                   checked={form.interests.includes(interest)}
                   onChange={handleChange}
-                  className="accent-[#755fe1]"
+                  className="accent-primary"
                 />
                 {interest}
               </label>
@@ -387,7 +387,7 @@ const CreateProfile = () => {
               onChange={handleChange}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-[#6465F4] transition-all relative">
+            <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-primary transition-all relative">
               <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-all peer-checked:translate-x-5"></div>
             </div>
           </label>
@@ -395,14 +395,14 @@ const CreateProfile = () => {
         {/* Submit */}
         <button
           type="submit"
-          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#6465F4] to-[#8F6BF9] hover:bg-purple-600 text-white font-semibold py-3 rounded-xl cursor-pointer shadow-md text-lg transition-all transform hover:scale-105"
+          className="w-full flex items-center justify-center gap-2 bg-primary  hover:bg-primary/90 text-white font-semibold py-3 rounded-xl cursor-pointer shadow-md text-lg transition-all transform hover:scale-105"
         >
           <FiUserPlus size={22} />
           Create Account
         </button>
         <div className="text-center text-gray-500 text-sm">
           Already have an account?{" "}
-          <Link to="/signin" className="text-[#755fe1] hover:underline">
+          <Link to="/signin" className="text-primary/90 hover:underline">
             Sign in here
           </Link>
         </div>

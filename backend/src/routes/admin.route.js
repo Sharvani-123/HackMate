@@ -11,6 +11,8 @@ const {
 
 // Import middleware
 const { isAdmin } = require('../middleware/admin.middleware');
+const { verifyFirebaseToken } = require('../middleware/auth.middleware');
+router.use(verifyFirebaseToken);
 
 // Admin hackathon routes
 router.post('/hackathons', isAdmin, createHackathon);

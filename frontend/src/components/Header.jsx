@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/iconLogo.png';
+import logo from '../assets/hackmateIcon2.png';
 import { HiMenu, HiX } from 'react-icons/hi';
 
 const Header = ({ footerRef }) => {

@@ -9,14 +9,15 @@ const  {
     getUsersByCollege
 } = require('../controllers/user.controller');
 
+const { verifyFirebaseToken } = require('../middleware/auth.middleware');
 //Routes
 // POST /api/users/profile - Create new user profile
-router.post('/profile', createProfile);
+router.post('/profile',verifyFirebaseToken, createProfile);
 //GET /api/users/profile - Get current user's profile
-router.get('/profile', getUserProfile);
+router.get('/profile',verifyFirebaseToken, getUserProfile);
 //PATCH /api/users/profile - Update current user's profile
-router.patch('/profile', updateProfile);
+router.patch('/profile',verifyFirebaseToken, updateProfile);
 //GET /api/users/college/:university - Get users from specific college (public)
-router.get('/college/:university', getUsersByCollege);
+router.get('/college/:university',verifyFirebaseToken, getUsersByCollege);
 
 module.exports= router;
