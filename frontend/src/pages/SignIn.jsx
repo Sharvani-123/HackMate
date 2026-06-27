@@ -4,7 +4,7 @@ import { signInWithPopup, GoogleAuthProvider, getAuth } from "firebase/auth";
 import { FcGoogle } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 import { checkIfUserProfileExists } from "../utils/firebaseHelpers"
-import { app } from '../firebase'; // your firebase config
+import { app } from '../firebase'; 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -18,8 +18,6 @@ const SignIn = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      // Small delay to ensure token is ready
-      await new Promise(resolve => setTimeout(resolve, 1000));
 
       // Check backend if user profile exists
       const userExists = await checkIfUserProfileExists(user.uid); 
@@ -29,9 +27,15 @@ const SignIn = () => {
         navigate('/createprofile');
       }
     } catch (error) {
-      console.error("Login error:", error);
-      alert("Login failed. Please try again.");
+    if (error.code === 'auth/popup-blocked') {
+      alert('Popup was blocked by your browser. Please allow popups for this site and try again.');
+    } else if (error.code === 'auth/popup-closed-by-user') {
+      // user closed it themselves, no need to alert
+    } else {
+      console.error('Login error:', error);
+      alert('Login failed. Please try again.');
     }
+  }
   };
 
   return (

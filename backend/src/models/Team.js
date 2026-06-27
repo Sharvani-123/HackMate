@@ -14,6 +14,11 @@ const teamSchema = new mongoose.Schema({
         type:String,
         required: true //Links to User.email
     },
+    createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+    },
     description:{
         type: String
     },
@@ -63,5 +68,6 @@ teamSchema.index({ hackathonName: 1 }); // For hackathon-based filtering
 teamSchema.index({ hackathonType: 1 });
 teamSchema.index({ isTeamFull: 1 }); // For finding available teams
 teamSchema.index({ createdAt: -1 }); // For sorting by creation date
+teamSchema.index({ createdBy: 1 });
 const Team= mongoose.model('Team', teamSchema);
 module.exports= Team;

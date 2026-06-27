@@ -1,6 +1,7 @@
 const Team= require('../models/Team');
 const User= require('../models/User');
 const {validationResult } = require('express-validator');
+const {createNotification} = require('./notification.controller');
 
 //Get all teams with filtering and pagination
 const getAllTeams = async (req,res) => {
@@ -113,6 +114,7 @@ const createTeam= async(req,res)=>{
         hackathonName,
         hackathonType,
         creatorEmail,
+         createdBy: creator._id, 
         description,
         skills: skills || [],
         members: [creator._id], // Add creator as first member
@@ -179,6 +181,11 @@ const requestToJoin = async (req,res) => {
         team.requests.push(user._id);
         await team.save();
 
+        await createNotification(req.app.get('io'), {
+          userId: team.createdBy,
+          notificationType: 'team_request',
+          message: `${user.profile.name} requested to join your team "${team.name}"`
+        });
         res.json({
         success: true,
         message: 'Join request sent successfully'
@@ -227,10 +234,16 @@ const approveRequest = async (req,res) => {
 
         await team.save();
 
-        res.json({
-        success: true,
-        message: 'Request approved successfully'
+        await createNotification(req.app.get('io'), {
+          userId: userId,
+          notificationType: 'request_approved',
+          message: `Your request to join "${team.name}" was approved!`
         });
+
+      res.json({
+          success: true,
+          message: 'Request approved successfully'
+      });
     } catch(error){
         res.status(500).json({ 
             success: false, 
@@ -342,7 +355,14 @@ const rejectRequest = async (req, res) => {
     // Remove from requests
     team.requests = team.requests.filter(id => id.toString() !== userId);
     await team.save();
-
+    // Notify the person who requested
+    const { createNotification } = require('./notification.controller');
+    await createNotification(req.app.get('io'), {
+        userId: userId,
+        notificationType: 'request_declined',
+        message: `Your request to join "${team.name}" was declined.`
+    });
+    
     res.json({
       success: true,
       message: 'Request rejected successfully'
